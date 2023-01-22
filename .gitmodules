@@ -1,3 +1,12 @@
 [submodule "src/aws-robomaker-small-house-world"]
 	path = src/aws-robomaker-small-house-world
 	url = https://github.com/harshmittal2210/aws-robomaker-small-house-world
+[submodule "src/velodyne_simulator"]
+	path = src/velodyne_simulator
+	url = https://bitbucket.org/DataspeedInc/velodyne_simulator.git
+[submodule "src/cartographer"]
+	path = src/cartographer
+	url = https://github.com/cartographer-project/cartographer
+[submodule "src/cartographer_ros"]
+	path = src/cartographer_ros
+	url = https://github.com/cartographer-project/cartographer_ros
