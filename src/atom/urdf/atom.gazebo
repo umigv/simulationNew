@@ -1,5 +1,21 @@
 <?xml version="1.0"?>
 <robot>
+  <!-- <gazebo reference="right_wheel_front">
+    <mu1 value="1.0"/>
+    <mu2 value="0.5"/>
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0"/>
+  </gazebo>
+
+  <gazebo reference="left_wheel_front">
+    <mu1 value="1.0"/>
+    <mu2 value="0.5"/>
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0"/>
+  </gazebo> -->
+
   <gazebo>
     <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <!-- Plugin update rate in Hz -->
@@ -25,7 +41,7 @@
       <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
       <robotBaseFrame>robot_footprint</robotBaseFrame>
       <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-      <odometrySource>world</odometrySource>
+      <odometrySource>encoder</odometrySource>
       <!-- Set to true to publish transforms for the wheel links, defaults to false -->
       <publishWheelTF>true</publishWheelTF>
       <!-- Set to true to publish transforms for the odometry, defaults to true -->
@@ -33,7 +49,7 @@
       <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
       <publishWheelJointState>true</publishWheelJointState>
       <!-- Set to true to swap right and left wheels, defaults to true -->
-      <legacyMode>false</legacyMode>
+      <legacyMode>true</legacyMode>
       <rosDebugLevel>na</rosDebugLevel>
       <publishOdomTF>true</publishOdomTF>
       <publishTf>1</publishTf>

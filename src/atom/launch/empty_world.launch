@@ -14,7 +14,7 @@
 	<include file="$(find atom)/launch/robot_description.launch"/>
 
 	<!-- World File -->
-	<arg name="world_file" default="$(find atom)/worlds/finalWorldWithObstacles.sdf"/>
+	<arg name="world_file" default="$(find atom)/worlds/empty.world"/>
 
 	<!-- Launch Gazebo World -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
