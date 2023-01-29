@@ -1,21 +1,39 @@
 <?xml version='1.0'?>
 
-<robot name="atom" xmlns:xacro="http://www.ros.org/wiki/xacro">
-	<xacro:property name="robot_name" value="atom" />
-	<xacro:property name="robot_chassis_mass" value="29.9371" />
+<!-- TODO: Switch back to 4 wheel skid steer drive -->
 
-	<xacro:property name="robot_wheel_mass" value="5" />
-	<xacro:property name="robot_wheel_length" value="0.1" />
-	<xacro:property name="robot_wheel_radius" value="0.157226" />
+<robot name="atom" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:property name="height_offset" value="0.0002" /> <!-- How far the robot starts off the ground -->
+	<xacro:property name="front_offset" value="0.3" /> <!-- How far forward the wheels and lidar are compared to the center of the chassis -->
+	<xacro:property name="back_offset" value="-0.5715" /> <!-- How far back the caster wheel is compared to the center of the chassis -->
+	
+	<xacro:property name="chassis_mass" value="29.9371" />
+	<xacro:property name="chassis_length" value="1.143" />
+	<xacro:property name="chassis_width" value="0.6096" />
+	<xacro:property name="chassis_height" value="0.5588" />
+
+	<xacro:property name="caster_radius" value="0.05" />
+
+	<xacro:property name="wheel_mass" value="5" />
+	<xacro:property name="wheel_radius" value="0.157226" />
+	<xacro:property name="wheel_width" value="0.1" />
+	<xacro:property name="wheel_separation" value="0.72" /> <!-- Distance from center to center -->
 
 	<xacro:property name="camera_mass" value="0.1"/>
+	<xacro:property name="camera_front_offset" value="0.5715"/> <!-- How far forward the camera is compared to the center of the chassis -->
+	<xacro:property name="camera_z_offset" value="-0.2"/> <!-- How far down the camera is compared to the center of the chassis -->
 
-	<!-- Make Chassis of Bot -->
+	<xacro:property name="lidar_height" value="0.89535"/> <!-- The distance from the base of the chassis to the base of the LiDAR -->
+
+	<!-- Robot footprint on ground -->
+	<link name="robot_footprint" />
+
+	<!-- Chassis -->
 	<link name="chassis">
 		<pose>0.536448 -0.130302 0.066802 0 0 0</pose>
 
 		<inertial>
-			<mass value="${robot_chassis_mass}" />
+			<mass value="${chassis_mass}" />
 			<origin xyz="0 0 0" rpy="0 0 0" />
 
 			<inertia
@@ -28,22 +46,22 @@
 		<collision name="collision">
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<geometry>
-				<box size="1.143 0.6096 0.5588" />
+				<box size="${chassis_length} ${chassis_width} ${chassis_height}" />
 			</geometry>
 		</collision>
 
 		<visual name="chassis_visual">
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<geometry>
-				<box size="1.143 0.6096 0.5588" />
+				<box size="${chassis_length} ${chassis_width} ${chassis_height}" />
 			</geometry>
 
 		</visual>
 
 		<collision name='caster_collision'>
-			<origin xyz="-0.5715 0 -0.386626" rpy=" 0 0 0"/>
+			<origin xyz="${back_offset} 0 ${-chassis_height/2-wheel_radius+caster_radius}" rpy=" 0 0 0"/>
 			<geometry>
-				<sphere radius="0.05"/>
+				<sphere radius="${caster_radius}"/>
 			</geometry>
 			<surface>
 				<friction>
@@ -58,138 +76,36 @@
 		</collision>
 	  
 		<visual name='caster_visual'>
-			<origin xyz="-0.5715 0 -0.386626" rpy=" 0 0 0"/>
+			<origin xyz="${back_offset} 0 ${-chassis_height/2-wheel_radius+caster_radius}" rpy=" 0 0 0"/>
 			<geometry>
-				<sphere radius="0.05"/>
+				<sphere radius="${caster_radius}"/>
 			</geometry>
 		</visual>
 	</link>
 
-	<!-- Right Wheel Front-->
-	<link name="right_wheel_front">
-		<inertial>
-			<mass value="${robot_wheel_mass}" />
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<inertia
-				ixx="0.03506668551166666666666666666667" ixy="0.0" ixz="0.0"
-				iyy="0.03506668551166666666666666666667" iyz="0.0"
-				izz="0.030900018845"
-			/>
-		</inertial>
-
-		<visual>
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<geometry>
-				<cylinder radius="${robot_wheel_radius}" length="${robot_wheel_length}" />
-			</geometry>
-		</visual>
-
-		<collision>
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<geometry>
-				<cylinder radius="${robot_wheel_radius}" length="${robot_wheel_length}" />
-			</geometry>
-		</collision>
-
-	</link>
-
-	<!-- Left wheel Front-->
-	<link name="left_wheel_front">
-		<inertial>
-			<mass value="${robot_wheel_mass}" />
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<inertia
-				ixx="0.03506668551166666666666666666667" ixy="0.0" ixz="0.0"
-				iyy="0.03506668551166666666666666666667" iyz="0.0"
-				izz="0.030900018845"
-			/>
-		</inertial>
-
-		<visual>
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<geometry>
-				<cylinder radius="${robot_wheel_radius}" length="${robot_wheel_length}" />
-			</geometry>
-		</visual>
-
-		<collision>
-			<origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
-			<geometry>
-				<cylinder radius="${robot_wheel_radius}" length="${robot_wheel_length}" />
-			</geometry>
-		</collision>
-
-	</link>
+	<!-- Wheels -->
+	<xacro:include filename="$(find atom)/urdf/wheel.xacro"/>
+	<xacro:wheel prefix="right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}">
+		<origin xyz="${front_offset} -${wheel_separation/2} ${-chassis_height/2}" rpy="0 0 0" />
+	</xacro:wheel>
+	<xacro:wheel prefix="left" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}">
+		<origin xyz="${front_offset} ${wheel_separation/2} ${-chassis_height/2}" rpy="0 0 0" />
+	</xacro:wheel>
 
 	<!-- Camera -->
-	<link name="camera">
-		<inertial>
-			<mass value="${camera_mass}"/>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<inertia
-		        ixx="1e-6" ixy="0.0" ixz="0.0"
-		        iyy="1e-6" iyz="0.0"
-		        izz="1e-6"
-		      />
-		</inertial>
+	<xacro:include filename="$(find atom)/urdf/camera.xacro"/>
+	<xacro:camera mass="${camera_mass}">
+		<origin xyz="${camera_front_offset} 0 ${camera_z_offset}" rpy="0 0 0" />
+	</xacro:camera>
 
-		<visual>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<geometry>
-				<box size="0.05 0.05 0.05"/>
-			</geometry>
-		</visual>
+	<!-- LiDAR -->
+	<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
+	<xacro:VLP-16 parent="chassis" name="velodyne" topic="/points2" hz="10" samples="250" gpu="false">
+		<origin xyz="${front_offset} 0 ${-chassis_height/2+lidar_height}" rpy="0 0 0" />
+	</xacro:VLP-16>
 
-		<collision>
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<geometry>
-				<box size="0.05 0.05 0.05"/>
-			</geometry>
-		</collision>
-	</link>
-
-	<link name="camera_link_optical" />
-
+	<!-- IMU -->
 	<link name="imu_link" />
-
-	<!-- Project center to the ground -->
-	<link name="robot_footprint" />
-
-	<!-- Define Joints -->
-
-	<!-- Right Wheel Joint Front-->
-	<joint type="continuous" name="right_wheel_hinge_front">
-		<origin xyz="0.3 -0.3548 -0.2794" rpy="0 0 0" />
-		<parent link="chassis" />
-		<child link="right_wheel_front" />
-		<axis xyz="0 1 0" rpy="0 0 0" />
-		<limit effort="10000" velocity="1000" />
-		<dynamics damping="1.0" friction="1.0" />
-	</joint>
-
-	<!-- Left Wheel Joint Front-->
-	<joint type="continuous" name="left_wheel_hinge_front">
-		<origin xyz="0.3 0.3548 -0.2794" rpy="0 0 0" />
-		<parent link="chassis" />
-		<child link="left_wheel_front" />
-		<axis xyz="0 1 0" rpy="0 0 0" />
-		<limit effort="10000" velocity="1000" />
-		<dynamics damping="1.0" friction="1.0" />
-	</joint>
-
-	<!-- Camera Joint -->
-	<joint name="camera_joint" type="fixed">
-		<origin xyz="0.5715 0 -0.2" rpy="0 0 0" />
-		<parent link="chassis" />
-		<child link="camera" />
-		<axis xyz="0 1 0" />
-	</joint>
-
-	<joint name="camera_optical_joint" type="fixed">
-		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-		<parent link="camera" />
-		<child link="camera_link_optical" />
-	</joint>
 
 	<!-- IMU Joint -->
 	<joint name="imu_joint" type="fixed">
@@ -199,61 +115,18 @@
 		<axis xyz="0 1 0" />
 	</joint>
 
+	<!-- Chassis Joint -->
 	<joint name="robot_footprint_joint" type="fixed">
-		<origin xyz="0 0 0.436626" rpy="0 0 0" />
+		<origin xyz="0 0 ${chassis_height/2+wheel_radius+height_offset}" rpy="0 0 0" />
 		<parent link="robot_footprint" />
 		<child link="chassis" />
 	</joint>
 
 	<!-- Color of bot -->
-	<gazebo reference="left_wheel_front">
-		<material>Gazebo/Green</material>
-		<kp>1000000.0</kp> <!-- kp and kd for rubber -->
-		<kd>100.0</kd>
-		<mu1>1.0</mu1>
-		<mu2>1.0</mu2>
-		<maxVel>1.0</maxVel>
-		<minDepth>0.00</minDepth>
-	</gazebo>
-
-	<gazebo reference="middle_wheel_back">
-		<material>Gazebo/Green</material>
-		<kp>1000000.0</kp> <!-- kp and kd for rubber -->
-		<kd>100.0</kd>
-		<mu1>1.0</mu1>
-		<mu2>1.0</mu2>
-		<maxVel>1.0</maxVel>
-		<minDepth>0.00</minDepth>
-	</gazebo>
-
-	<gazebo reference="right_wheel_front">
-		<material>Gazebo/Green</material>
-		<kp>1000000.0</kp> <!-- kp and kd for rubber -->
-		<kd>100.0</kd>
-		<mu1>1.0</mu1>
-		<mu2>1.0</mu2>
-		<maxVel>1.0</maxVel>
-		<minDepth>0.00</minDepth>
-	</gazebo>
-
-	<gazebo reference="camera">
-		<material>Gazebo/Red</material>
-	</gazebo>
-
 	<gazebo reference="chassis">
 		<material>Gazebo/Blue</material>
 	</gazebo>
 
-	<!-- including the LiDAR xacro file and creating an instance of it -->
-	<!-- somehow the xacro needs to be in the VLP-16 tags for it to show up -->
-	<xacro:include
-		filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
-	<xacro:VLP-16 parent="chassis" name="velodyne" topic="/points2" hz="10" samples="250"
-		gpu="false">
-		<origin xyz="0.3 0 0.61595" rpy="0 0 0" /> <!-- samples 440-->
-		<!-- the height number needs to be adjusted -->
-	</xacro:VLP-16>
-
-	<!-- Motor, Camera and Lidar Simulation -->
+	<!-- Motor, Camera and IMU Simulation -->
 	<xacro:include filename="$(find atom)/urdf/atom.gazebo" />
 </robot>

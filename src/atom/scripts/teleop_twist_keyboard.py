@@ -6,8 +6,7 @@ import threading
 
 import rospy
 
-from geometry_msgs.msg import Twist
-from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import Twist, TwistStamped
 
 import sys
 from select import select
@@ -194,8 +193,8 @@ if __name__=="__main__":
 
     rospy.init_node('teleop_twist_keyboard')
 
-    speed = rospy.get_param("~speed", 0.5)
-    turn = rospy.get_param("~turn", 1.0)
+    speed = rospy.get_param("~speed", 1.5)
+    turn = rospy.get_param("~turn", 2.0)
     speed_limit = rospy.get_param("~speed_limit", 1000)
     turn_limit = rospy.get_param("~turn_limit", 1000)
     repeat = rospy.get_param("~repeat_rate", 0.0)
