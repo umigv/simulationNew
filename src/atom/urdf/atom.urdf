@@ -5,19 +5,14 @@
 <!-- =================================================================================== -->
 <robot name="atom">
   <!-- How far back the caster wheel is compared to the center of the chassis -->
-  <!-- Distance from center to center -->
+  <!-- How far above the bottom plate of the robot the wheels are -->
   <!-- How far down the camera is compared to the center of the chassis -->
   <!-- The distance from the base of the chassis to the base of the LiDAR -->
   <!-- Robot footprint on ground -->
-  <link name="robot_footprint"/>
+  <link name="base_footprint"/>
   <!-- Chassis -->
   <link name="chassis">
-    <pose>0.536448 -0.130302 0.066802 0 0 0</pose>
-    <inertial>
-      <mass value="29.9371"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <inertia ixx="1.699" ixy="0" ixz="0" iyy="4.022" iyz="0" izz="4.170"/>
-    </inertial>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <collision name="collision">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -31,60 +26,66 @@
       </geometry>
     </visual>
     <collision name="caster_collision">
-      <origin rpy=" 0 0 0" xyz="-0.5715 0 -0.38662599999999997"/>
+      <origin rpy=" 0 0 0" xyz="-0.5715 0 -0.376626"/>
       <geometry>
         <sphere radius="0.05"/>
       </geometry>
       <surface>
         <friction>
           <ode>
-            <mu>1</mu>
-            <mu2>1</mu2>
-            <slip1>0.5</slip1>
-            <slip2>0</slip2>
+            <mu>0.0</mu>
+            <mu2>0.0</mu2>
           </ode>
         </friction>
       </surface>
     </collision>
     <visual name="caster_visual">
-      <origin rpy=" 0 0 0" xyz="-0.5715 0 -0.38662599999999997"/>
+      <origin rpy=" 0 0 0" xyz="-0.5715 0 -0.376626"/>
       <geometry>
         <sphere radius="0.05"/>
       </geometry>
     </visual>
   </link>
+  <link name="chassis_inertial_link">
+    <inertial>
+      <mass value="29.9371"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="4.038281380410333" ixy="0" ixz="0" iyy="1.7060893835133333" iyz="0" izz="4.186357062753"/>
+    </inertial>
+  </link>
   <link name="right_wheel">
     <inertial>
       <mass value="5"/>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
-      <inertia ixx="0.03506668551166666666666666666667" ixy="0.0" ixz="0.0" iyy="0.03506668551166666666666666666667" iyz="0.0" izz="0.030900018845"/>
+      <inertia ixx="0.049650018845000005" ixy="0.0" ixz="0.0" iyy="0.049650018845000005" iyz="0.0" izz="0.061800037690000004"/>
     </inertial>
     <visual>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.157226"/>
+        <cylinder length="0.15" radius="0.157226"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.157226"/>
+        <cylinder length="0.15" radius="0.157226"/>
       </geometry>
     </collision>
   </link>
   <joint name="right_wheel_joint" type="continuous">
-    <origin rpy="0 0 0" xyz="0.3 -0.36 -0.2794"/>
+    <origin rpy="0 0 0" xyz="0.3 -0.39 -0.2694"/>
     <parent link="chassis"/>
     <child link="right_wheel"/>
     <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.0001"/>
   </joint>
   <gazebo reference="right_wheel">
     <material>Gazebo/Green</material>
     <mu1 value="1.0"/>
-    <mu2 value="0.5"/>
+    <mu2 value="1.0"/>
     <kp value="10000000.0"/>
     <kd value="1.0"/>
-    <fdir1 value="1 0 0"/>
     <maxVel>1.0</maxVel>
     <minDepth>0.00</minDepth>
   </gazebo>
@@ -92,34 +93,35 @@
     <inertial>
       <mass value="5"/>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
-      <inertia ixx="0.03506668551166666666666666666667" ixy="0.0" ixz="0.0" iyy="0.03506668551166666666666666666667" iyz="0.0" izz="0.030900018845"/>
+      <inertia ixx="0.049650018845000005" ixy="0.0" ixz="0.0" iyy="0.049650018845000005" iyz="0.0" izz="0.061800037690000004"/>
     </inertial>
     <visual>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.157226"/>
+        <cylinder length="0.15" radius="0.157226"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 1.5707963267948966" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.157226"/>
+        <cylinder length="0.15" radius="0.157226"/>
       </geometry>
     </collision>
   </link>
   <joint name="left_wheel_joint" type="continuous">
-    <origin rpy="0 0 0" xyz="0.3 0.36 -0.2794"/>
+    <origin rpy="0 0 0" xyz="0.3 0.39 -0.2694"/>
     <parent link="chassis"/>
     <child link="left_wheel"/>
     <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="1000"/>
+    <dynamics damping="0.0001"/>
   </joint>
   <gazebo reference="left_wheel">
     <material>Gazebo/Green</material>
     <mu1 value="1.0"/>
-    <mu2 value="0.5"/>
+    <mu2 value="1.0"/>
     <kp value="10000000.0"/>
     <kd value="1.0"/>
-    <fdir1 value="1 0 0"/>
     <maxVel>1.0</maxVel>
     <minDepth>0.00</minDepth>
   </gazebo>
@@ -213,7 +215,7 @@
     <sensor name="velodyne-VLP16" type="ray">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
-      <update_rate>10</update_rate>
+      <update_rate>20</update_rate>
       <ray>
         <scan>
           <horizontal>
@@ -241,7 +243,7 @@
         </noise>
       </ray>
       <plugin filename="libgazebo_ros_velodyne_laser.so" name="gazebo_ros_laser_controller">
-        <topicName>/points2_1</topicName>
+        <topicName>/points2</topicName>
         <frameName>velodyne</frameName>
         <organize_cloud>False</organize_cloud>
         <min_range>0.9</min_range>
@@ -260,10 +262,16 @@
     <axis xyz="0 1 0"/>
   </joint>
   <!-- Chassis Joint -->
-  <joint name="robot_footprint_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.43682599999999994"/>
-    <parent link="robot_footprint"/>
-    <child link="chassis"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.42662599999999995"/>
+    <parent link="chassis"/>
+    <child link="base_footprint"/>
+  </joint>
+  <!-- Chassis Inertial Joint -->
+  <joint name="chassis_inertial_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="chassis_inertial_link"/>
   </joint>
   <!-- Color of bot -->
   <gazebo reference="chassis">
@@ -278,7 +286,7 @@
       <!-- Name of right joint, defaults to `right_joint` -->
       <rightJoint>right_wheel_joint</rightJoint>
       <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-      <wheelSeparation>0.72</wheelSeparation>
+      <wheelSeparation>0.63</wheelSeparation>
       <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
       <wheelDiameter>0.314452</wheelDiameter>
       <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
@@ -292,7 +300,7 @@
       <!-- Odometry frame, defaults to `odom` -->
       <odometryFrame>odom</odometryFrame>
       <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-      <robotBaseFrame>robot_footprint</robotBaseFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
       <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
       <odometrySource>encoder</odometrySource>
       <!-- Set to true to publish transforms for the wheel links, defaults to false -->
@@ -337,7 +345,7 @@
         <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>
         <depthImageTopicName>/camera/depth/image_raw</depthImageTopicName>
         <depthImageCameraInfoTopicName>/camera/depth/camera_info</depthImageCameraInfoTopicName>
-        <pointCloudTopicName>/points2_2</pointCloudTopicName>
+        <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
         <!-- /camera/depth/points -->
         <frameName>camera_link_optical</frameName>
         <pointCloudCutoff>0.3</pointCloudCutoff>

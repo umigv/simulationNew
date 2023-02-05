@@ -9,7 +9,7 @@
       <!-- Name of right joint, defaults to `right_joint` -->
       <rightJoint>right_wheel_joint</rightJoint>
       <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-      <wheelSeparation>0.72</wheelSeparation>
+      <wheelSeparation>0.63</wheelSeparation>
       <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
       <wheelDiameter>0.314452</wheelDiameter>
       <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
@@ -23,7 +23,7 @@
       <!-- Odometry frame, defaults to `odom` -->
       <odometryFrame>odom</odometryFrame>
       <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-      <robotBaseFrame>robot_footprint</robotBaseFrame>
+      <robotBaseFrame>chassis</robotBaseFrame>
       <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
       <odometrySource>encoder</odometrySource>
       <!-- Set to true to publish transforms for the wheel links, defaults to false -->

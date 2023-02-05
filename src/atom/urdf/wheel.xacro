@@ -7,9 +7,9 @@
                 <mass value="${mass}" />
                 <origin xyz="0 0 0" rpy="0 ${pi/2} ${pi/2}" />
                 <inertia
-                    ixx="0.03506668551166666666666666666667" ixy="0.0" ixz="0.0"
-                    iyy="0.03506668551166666666666666666667" iyz="0.0"
-                    izz="0.030900018845"
+                    ixx="${mass/12*(3*radius**2+2*width**2)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass/12*(3*radius**2+2*width**2)}" iyz="0.0"
+                    izz="${mass/2*radius**2}"
                 />
             </inertial>
     
@@ -33,15 +33,16 @@
             <parent link="chassis" />
             <child link="${prefix}_wheel" />
             <axis xyz="0 1 0" rpy="0 0 0" />
+            <limit effort="1000" velocity="1000"/>
+            <dynamics damping="0.0001"/>
         </joint>
 
         <gazebo reference="${prefix}_wheel">
             <material>Gazebo/Green</material>
             <mu1 value="1.0"/>
-            <mu2 value="0.5"/>
+            <mu2 value="1.0"/>
             <kp value="10000000.0" />
             <kd value="1.0" />
-            <fdir1 value="1 0 0"/>
             <maxVel>1.0</maxVel>
             <minDepth>0.00</minDepth>
         </gazebo>
