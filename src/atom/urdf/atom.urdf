@@ -219,7 +219,7 @@
       <ray>
         <scan>
           <horizontal>
-            <samples>250</samples>
+            <samples>500</samples>
             <resolution>1</resolution>
             <min_angle>-3.141592653589793</min_angle>
             <max_angle>3.141592653589793</max_angle>
@@ -373,7 +373,7 @@
       <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
         <topicName>imu</topicName>
         <bodyName>imu_link</bodyName>
-        <updateRateHZ>10.0</updateRateHZ>
+        <updateRateHZ>100.0</updateRateHZ>
         <gaussianNoise>0.0</gaussianNoise>
         <xyzOffset>0 0 0</xyzOffset>
         <rpyOffset>0 0 0</rpyOffset>
