@@ -27,6 +27,6 @@
 
 	<!--launch rviz-->
 	<node name="rviz" pkg="rviz" type="rviz" respawn="false"
-		  args="-d $(find atom)/default.rviz"/>
+		  args="-d $(find atom)/rviz/atom.rviz"/>
 
 </launch>
