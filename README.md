@@ -21,7 +21,7 @@ This repository includes the simulation code for UMARV.
 git clone --recursive https://github.com/umigv/simulationNew.git simulation_ws
 cd simulation_ws
 catkin build
-source devel/setup.sh
+source devel/setup.bash
 ```
 
 ## Atom Robot
