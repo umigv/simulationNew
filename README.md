@@ -18,9 +18,8 @@ This repository includes the simulation code for UMARV.
 ## Set up workspace
 
 ```bash
-git clone -b updated https://github.com/umigv/simulationNew.git simulation_ws
+git clone --recursive https://github.com/umigv/simulationNew.git simulation_ws
 cd simulation_ws
-git submodule update --init --recursive
 catkin build
 source devel/setup.sh
 ```
