@@ -14,8 +14,8 @@
 	<include file="$(find atom)/launch/robot_description.launch"/>
 
 	<!-- World File -->
-	<!-- <arg name="world_file" default="$(find atom)/worlds/finalWorldWithObstacles.sdf"/> -->
-	<arg name="world_file" default="$(find atom)/worlds/barrels.world"/>
+	<arg name="world_file" default="$(find atom)/worlds/finalWorldWithObstacles.sdf"/>
+	<!-- <arg name="world_file" default="$(find atom)/worlds/barrels.world"/> -->
 
 	<!-- Launch Gazebo World -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -27,8 +27,21 @@
 	</include>
 
 	<!-- Spawn My Robot -->
-	<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	<node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
 		args="-urdf -param robot_description -model atom
 			  -x $(arg x) -y $(arg y) -z $(arg z)
 			  -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+	
+	<node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+	<node pkg="nodelet" type="nodelet" name="passthrough" args="load pcl/PassThrough pcl_manager" output="screen">
+		<remap from="~input" to="/velodyne_points" />
+		<remap from="~output" to="/points2" />
+        <rosparam>
+            filter_field_name: z
+            filter_limit_min: 0.01
+            filter_limit_max: 1000.0
+            filter_limit_negative: False
+        </rosparam>
+	</node>
 </launch>

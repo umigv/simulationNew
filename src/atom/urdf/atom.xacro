@@ -102,7 +102,7 @@
 
 	<!-- LiDAR -->
 	<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />
-	<xacro:VLP-16 parent="chassis" name="velodyne" topic="/points2" hz="20" samples="500">
+	<xacro:VLP-16 parent="chassis" name="velodyne" topic="/velodyne_points" hz="20" samples="440" gpu="true">
 		<origin xyz="${front_offset} 0 ${lidar_height-chassis_height/2}" rpy="0 0 0" />
 	</xacro:VLP-16>
 
