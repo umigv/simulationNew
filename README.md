@@ -36,9 +36,9 @@ sudo apt-get install -y liblua5.3-dev python3-sphinx libeigen3-dev
 sudo apt-get install -y stow
 
 # Install Cartographer dependencies
-src/cartographer/scripts/install_proto3.sh
 src/cartographer/scripts/install_debs_cmake.sh
 src/cartographer/scripts/install_abseil.sh
+scripts/install_proto3_fixed.sh
 
 # Install ROS dependencies
 sudo rosdep init
@@ -66,7 +66,7 @@ roslaunch marvin world_no_rviz.launch 2> >(grep -v -E 'TF_REPEATED_DATA|buffer_c
 ## Launch Cartographer
 
 ```bash
-roslaunch marvin cartographer.launch 2> >(grep -v -E 'TF_REPEATED_DATA|buffer_core|lookupTransform')
+roslaunch marvin cartographer.launch 2> >(grep -v -E 'TF_REPEATED_DATA|buffer_core|lookupTransform|at line|^$')
 ```
 
 ## Control the Robot

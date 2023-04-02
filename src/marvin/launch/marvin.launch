@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+    <include file="$(find marvin)/launch/robot_description.launch"/>
+    <include file="$(find marvin)/launch/ground_filter.launch"/>
+    <include file="$(find marvin)/launch/odom_ekf.launch"/>
+    <include file="$(find marvin)/launch/cartographer_no_rviz.launch"/>
+</launch>
