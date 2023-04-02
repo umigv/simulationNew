@@ -8,11 +8,11 @@
 	<arg name="roll" default="0"/>
 	<arg name="pitch" default="0"/>
 	<arg name="yaw" default="0"/>
-	<arg name="robot_name" default="atom"/>
+	<arg name="robot_name" default="marvin"/>
 
 
 	<!-- World File -->
-	<arg name="world_file" default="$(find atom)/worlds/empty_bot.world"/>
+	<arg name="world_file" default="$(find marvin)/worlds/empty_bot.world"/>
 
 	<!-- Launch Gazebo World -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -27,6 +27,6 @@
 
 	<!--launch rviz-->
 	<node name="rviz" pkg="rviz" type="rviz" respawn="false"
-		  args="-d $(find atom)/rviz/atom.rviz"/>
+		  args="-d $(find marvin)/rviz/marvin.rviz"/>
 
 </launch>

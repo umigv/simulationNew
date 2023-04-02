@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 
-<robot name="atom" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="marvin" xmlns:xacro="http://www.ros.org/wiki/xacro">
 	<xacro:property name="front_offset" value="0.3" /> <!-- How far forward the wheels and lidar are compared to the center of the chassis -->
 	<xacro:property name="back_offset" value="-0.5715" /> <!-- How far back the caster wheel is compared to the center of the chassis -->
 	
@@ -86,7 +86,7 @@
 	</link>
 
 	<!-- Wheels -->
-	<xacro:include filename="$(find atom)/urdf/wheel.xacro"/>
+	<xacro:include filename="$(find marvin)/urdf/wheel.xacro"/>
 	<xacro:wheel prefix="right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}">
 		<origin xyz="${front_offset} -${wheel_separation/2} ${wheel_offset-chassis_height/2}" rpy="0 0 0" />
 	</xacro:wheel>
@@ -94,8 +94,9 @@
 		<origin xyz="${front_offset} ${wheel_separation/2} ${wheel_offset-chassis_height/2}" rpy="0 0 0" />
 	</xacro:wheel>
 
+
 	<!-- Camera -->
-	<xacro:include filename="$(find atom)/urdf/camera.xacro"/>
+	<xacro:include filename="$(find marvin)/urdf/camera.xacro"/>
 	<xacro:camera mass="${camera_mass}">
 		<origin xyz="${camera_front_offset} 0 ${camera_z_offset}" rpy="0 0 0" />
 	</xacro:camera>
@@ -109,13 +110,8 @@
 	<!-- IMU -->
 	<link name="imu_link" />
 
-	<!-- IMU Joint -->
-	<joint name="imu_joint" type="fixed">
-		<origin xyz="0 0 0" rpy="0 0 0" />
-		<parent link="chassis" />
-		<child link="imu_link" />
-		<axis xyz="0 1 0" />
-	</joint>
+	<!-- Encoders -->
+	<link name="encoders" />
 
 	<!-- Chassis Joint -->
 	<joint name="base_footprint_joint" type="fixed">
@@ -131,11 +127,27 @@
 		<child link="chassis_inertial_link" />
 	</joint>
 
+	<!-- IMU Joint -->
+	<joint name="imu_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<parent link="chassis" />
+		<child link="imu_link" />
+		<axis xyz="0 1 0" />
+	</joint>
+
+	<!-- Encoders Joint -->
+	<joint name="encoders_joint" type="fixed">
+		<origin xyz="${front_offset} 0 ${wheel_offset-chassis_height/2}" rpy="0 0 0" />
+		<parent link="chassis" />
+		<child link="encoders" />
+		<axis xyz="0 1 0" />
+	</joint>
+
 	<!-- Color of bot -->
 	<gazebo reference="chassis">
 		<material>Gazebo/Blue</material>
 	</gazebo>
 
 	<!-- Motor, Camera and IMU Simulation -->
-	<xacro:include filename="$(find atom)/urdf/atom.gazebo" />
+	<xacro:include filename="$(find marvin)/urdf/marvin.gazebo" />
 </robot>

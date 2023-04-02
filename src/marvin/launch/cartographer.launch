@@ -18,12 +18,12 @@
   <param name="/use_sim_time" value="true" />
 
   <!-- <param name="robot_description"
-    textfile="$(find atom)/urdf/atom.urdf" /> -->
+    textfile="$(find marvin)/urdf/marvin.urdf" /> -->
 
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
-          -configuration_directory $(find atom)/configuration_files
-          -configuration_basename atom.lua"
+          -configuration_directory $(find marvin)/configuration_files
+          -configuration_basename marvin.lua"
       output="screen">
   </node>
 
@@ -31,5 +31,5 @@
       type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
 
   <node name="rviz" pkg="rviz" type="rviz" required="true"
-      args="-d $(find atom)/rviz/cartographer.rviz" />
+      args="-d $(find marvin)/rviz/cartographer.rviz" />
 </launch>
