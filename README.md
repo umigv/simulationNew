@@ -39,7 +39,6 @@ sudo apt-get install -y stow
 src/cartographer/scripts/install_proto3.sh
 src/cartographer/scripts/install_debs_cmake.sh
 src/cartographer/scripts/install_abseil.sh
-src/cartographer/scripts/install_ceres.sh
 
 # Install ROS dependencies
 sudo rosdep init
